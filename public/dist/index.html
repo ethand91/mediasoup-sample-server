@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Mediasoup Sample</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Mediasoup Sample</h1>
+        <p class="lead">Simple publish/play sample created with mediasoup@3</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h3>Local Video</h3>
+      <video id="localVideo" width="640" height="480" autoplay muted></video>
+
+      <h3>Remote Videos</h3>
+      <div id="remoteVideos"></div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+      window.onload = async () => {
+        console.log('window::onload');
+
+        const peer = new Lib();
+
+        try {
+          console.log('peer', peer);
+          await peer.initialize('wss://localhost');
+          await peer.join();
+          await peer.createSendTransport();
+          await peer.createRecvTransport();
+          const mediaStream = await peer.publish();
+
+          document.getElementById('localVideo').srcObject = mediaStream;
+          console.log('inited');
+        } catch (error) {
+          console.error('failed to initialize [error:%o]', error);
+        }
+      };
+    </script>
+  </body>
+</html>
