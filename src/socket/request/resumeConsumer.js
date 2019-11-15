@@ -18,7 +18,7 @@ module.exports = async({ userId, roomId, consumerId }) => {
 
     return { action };
   } catch (error) {
-    console.error('failed to handle resumse consumer request', error);
+    console.error('failed to handle resume consumer request', error);
     return { action, error: error.message };
   }
 };

@@ -49,7 +49,7 @@ const setRoomListeners = (socket, room) => {
   });
 
   room.on('producerresume', (userId, consumerId) => {
-    socket.broadcast({
+    socket.sendJson({
       action: 'producerresume',
       userId,
       consumerId
@@ -65,8 +65,7 @@ const setRoomListeners = (socket, room) => {
   });
 
   room.on('newconsumer', consumerData => {
-    console.log('room::newconsumer [data:%o]', consumerData);
-    socket.broadcast({
+    socket.emitToSocket(consumerData.consumerUserId, {
       action: 'newconsumer',
       consumerData
     });

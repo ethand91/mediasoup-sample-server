@@ -49,6 +49,19 @@ wss.on('connection', socket => {
     }
   };
 
+  socket.emitToSocket = (socketId, message) => {
+    const client = Array.from(wss.clients).find(client => client.id === socketId);
+
+    if (!client) {
+      console.error('Failed to find client with id %s', socketId);
+      return;
+    }
+
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(message));
+    }
+  };
+
   handleSocket(socket);
 });
 

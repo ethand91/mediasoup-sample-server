@@ -64,6 +64,10 @@ module.exports.Room = class Room extends EventEmitter {
     if (direction === 'recv') {
       // Create consumers
       for (const loggedInUser of Array.from(this._users.values())) {
+        if (loggedInUser.id === userId) {
+          continue;
+        }
+
         for (const producer of Array.from(loggedInUser.producers.values())) {
           await this._createConsumer({
             consumerUser: user,
@@ -148,7 +152,7 @@ module.exports.Room = class Room extends EventEmitter {
     const user = this._getUserById(userId);
     const producer = this._getProducerById(user, producerId);
 
-    await producer.resumse();
+    await producer.resume();
   }
 
   closeProducer ({ userId, producerId }) {
@@ -172,6 +176,13 @@ module.exports.Room = class Room extends EventEmitter {
 
   async _createConsumer ({ consumerUser, producerUser, producer }) {
     console.log('_createConsumer [consumerUserId:%s, producerUserId:%s]', consumerUser.id, producerUser.id);
+
+    // Don't create the consumer if it already exists
+    if (Array.from(consumerUser.consumers).find(consumer => consumer.producerId === producer.id)) {
+      console.log('_createConsumer consumer already exists skipping [producer.id:%s]', producer.id);
+      return;
+    }
+
     // Don't create the consumer if it is not supported
     if (!consumerUser.rtpCapabilities || !this._mediasoupRouter.canConsume({
       producerId: producer.id,

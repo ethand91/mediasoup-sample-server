@@ -87,7 +87,7 @@ const handleSocketMessage = (socket, json) => {
       return Request.handlePauseProducerRequest({ ...json, userId: socket.id });
       break;
     case 'resumeProducer':
-      return Request.handleResumseProducerRequest({ ...json, userId: socket.id });
+      return Request.handleResumeProducerRequest({ ...json, userId: socket.id });
       break;
     case 'pauseConsumer':
       return Request.handlePauseConsumerRequest({ ...json, userId: socket.id });
