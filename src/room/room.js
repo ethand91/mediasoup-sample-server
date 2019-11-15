@@ -1,8 +1,8 @@
 const { EventEmitter } = require('events');
 
-const config = require('./config');
-const { User } = require('./user');
-const { getNextWorker } = require('./worker');
+const config = require('./../config');
+const { User } = require('./../user');
+const { getNextWorker } = require('./../worker');
 
 module.exports.Room = class Room extends EventEmitter {
   static async create({ roomId }) {
@@ -25,7 +25,7 @@ module.exports.Room = class Room extends EventEmitter {
     this._users = new Map();
   }
 
-  async login ({ userId, rtpCapabilities }) {
+  login ({ userId, rtpCapabilities }) {
     console.log('login() [id:%s, userId:%s]', this._id, userId);
     if (this._users.has(userId)) {
       throw new Error(`User with id ${userId} already exists`);
@@ -35,10 +35,6 @@ module.exports.Room = class Room extends EventEmitter {
     this._users.set(userId, user);
 
     this.emit('newuser', { userId: user.id });
-
-    return {
-      userId: user.id,
-    };
   }
 
   logout (userId) {
@@ -46,7 +42,7 @@ module.exports.Room = class Room extends EventEmitter {
     user.close();
 
     this._users.delete(userId); 
-    this.emit('userclose', userId);
+    this.emit('userclose', { userId });
   }
 
   async createWebRtcTransport ({ userId, direction }) {
@@ -69,7 +65,6 @@ module.exports.Room = class Room extends EventEmitter {
       // Create consumers
       for (const loggedInUser of Array.from(this._users.values())) {
         for (const producer of Array.from(loggedInUser.producers.values())) {
-          console.log('login() create consumer');
           await this._createConsumer({
             consumerUser: user,
             producerUser: loggedInUser,
@@ -142,7 +137,7 @@ module.exports.Room = class Room extends EventEmitter {
     console.log('pauseProducer');
 
     const user = this._getUserById(userId);
-    const producer = this._getProducerById(producerId);
+    const producer = this._getProducerById(user, producerId);
 
     await producer.pause();
   }
@@ -151,7 +146,7 @@ module.exports.Room = class Room extends EventEmitter {
     console.log('resumeProducer()');
 
     const user = this._getUserById(userId);
-    const producer = this._getProducerById(producerId);
+    const producer = this._getProducerById(user, producerId);
 
     await producer.resumse();
   }
@@ -160,7 +155,7 @@ module.exports.Room = class Room extends EventEmitter {
     console.log('closeProducer');
 
     const user = this._getUserById(userId);
-    const producer = this._getProducerById(producerId);
+    const producer = this._getProducerById(user, producerId);
 
     producer.close();
     user.producers.delete(producerId);
@@ -170,7 +165,7 @@ module.exports.Room = class Room extends EventEmitter {
     console.log('pauseConsumer()');
 
     const user = this._getUserById(userId);
-    const consumer = this._getConsumerById(consumerId);
+    const consumer = this._getConsumerById(user, consumerId);
 
     await consumer.pause();
   }
@@ -268,7 +263,7 @@ module.exports.Room = class Room extends EventEmitter {
     console.log('closeConsumer()');
 
     const user = this._getUserById(userId);
-    const consumer = this._getConsumerById(consumerId);
+    const consumer = this._getConsumerById(user, consumerId);
 
     consumer.close();
     user.consumers.delete(consumerId);

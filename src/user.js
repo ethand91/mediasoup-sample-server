@@ -10,14 +10,17 @@ module.exports.User = class User {
   close () {
     for (const consumer of Array.from(this._consumers.values())) {
       consumer.close();
+      this._consumers.delete(consumer.id);
     }
 
     for (const producer of Array.from(this._producers.values())) {
       producer.close();
+      this._producers.delete(producer.id);
     }
 
     for (const transport of Array.from(this._transports.values())) {
       transport.close();
+      this._transports.delete(transport.id);
     }
   }
 
