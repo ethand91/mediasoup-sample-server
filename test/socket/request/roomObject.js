@@ -1,4 +1,10 @@
+const { EventEmitter } = require('events');
+const emitter = new EventEmitter();
+
 module.exports = {
+  id: 'room',
+  emitter,
+  on: emitter.on,
   connectWebRtcTransport: () => Promise.resolve(),
   createWebRtcTransport: () => Promise.resolve(),
   pauseConsumer: () => Promise.resolve(),
