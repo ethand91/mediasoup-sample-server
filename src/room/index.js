@@ -1,7 +1,13 @@
 const { Room } = require('./room');
-const { getRoomById } = require('./roomMap');
+const {
+  addRoom,
+  getRoomById,
+  removeRoomById
+} = require('./roomMap');
 
 module.exports = {
   Room,
-  getRoomById
+  addRoom,
+  getRoomById,
+  removeRoomById
 };

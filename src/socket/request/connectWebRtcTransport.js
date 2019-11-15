@@ -19,6 +19,7 @@ module.exports = async ({ userId, roomId, transportId, dtlsParameters }) => {
 
     return { action };
   } catch (error) {
+    console.error('failed to handle connectWebRtcTransportRequest', error);
     return { action, error: error.message };
   }
 };

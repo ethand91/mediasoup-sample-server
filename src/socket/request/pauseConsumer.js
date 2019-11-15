@@ -18,6 +18,7 @@ module.exports = async ({ userId, roomId, consumerId }) => {
 
     return { action };
   } catch (error) {
+    console.error('failed to handle pause consumer request', error);
     return { action, error: error.message };
   }
 }; 

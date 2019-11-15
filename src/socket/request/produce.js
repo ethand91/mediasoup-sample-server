@@ -20,6 +20,7 @@ module.exports = async ({ roomId, userId, transportId, kind, rtpParameters }) =>
 
     return { action, producerId: id }; 
   } catch (error) {
+    console.error('failed to handle produce request', error);
     return { action, error: error.message };
   }
 };

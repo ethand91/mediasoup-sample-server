@@ -42,7 +42,8 @@ wss.on('connection', socket => {
   // Decorate socket
   socket.broadcast = (message) => {
     for (const client of wss.clients) {
-      if (client !== socket && client.readyState === WebSocket.OPEN) {
+      //if (client !== socket && client.readyState === WebSocket.OPEN) {
+      if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(message));
       }
     }

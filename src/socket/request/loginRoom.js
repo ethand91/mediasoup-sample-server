@@ -19,6 +19,7 @@ module.exports = (socket, { userId, roomId, rtpCapabilities }) => {
 
     return { action };
   } catch (error) {
+    console.error('failed to handle login room request', error);
     return { action, error: error.message };
   }
 };

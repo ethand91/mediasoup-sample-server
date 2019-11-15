@@ -18,6 +18,7 @@ module.exports = async ({ userId, roomId, producerId }) => {
 
     return { action };
   } catch (error) {
+    console.error('failed to handle resumse producer request', error);
     return { action, error: error.message };
   }
 };

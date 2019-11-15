@@ -173,7 +173,7 @@ module.exports.Room = class Room extends EventEmitter {
   async _createConsumer ({ consumerUser, producerUser, producer }) {
     console.log('_createConsumer [consumerUserId:%s, producerUserId:%s]', consumerUser.id, producerUser.id);
     // Don't create the consumer if it is not supported
-    if (!this._mediasoupRouter.canConsume({
+    if (!consumerUser.rtpCapabilities || !this._mediasoupRouter.canConsume({
       producerId: producer.id,
       rtpCapabilities: consumerUser.rtpCapabilities
     })) {
@@ -198,7 +198,7 @@ module.exports.Room = class Room extends EventEmitter {
       consumer = await recvTransport.consume({
         producerId: producer.id,
         rtpCapabilities: consumerUser.rtpCapabilities,
-        paused: true
+        //paused: true
       });
     } catch (error) {
       console.error('_createConsumer() failed to create consumer [id:%s, consumerUser.id:%s, recvTransport.id:%s, error:%o]', this._id, consumerUser.id, recvTransport.id, error);
