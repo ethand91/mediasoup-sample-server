@@ -38,8 +38,6 @@ const setSocketListeners = socket => {
   });
 
   socket.on('message', async message => {
-    console.log('socket::message [id:%s, message:%o]', socket.id, message);
-
     try {
       const json = JSON.parse(message);
       const response = await handleSocketMessage(socket, json);
@@ -80,18 +78,14 @@ const handleSocketMessage = (socket, json) => {
       // json.kind = Produce Kind
       // json.rtpParameters RTPParameters
       return Request.handleProduceRequest({ ...json, userId: socket.id });
-      break;
     case 'closeProducer':
       break;
     case 'pauseProducer':
       return Request.handlePauseProducerRequest({ ...json, userId: socket.id });
-      break;
     case 'resumeProducer':
       return Request.handleResumeProducerRequest({ ...json, userId: socket.id });
-      break;
     case 'pauseConsumer':
       return Request.handlePauseConsumerRequest({ ...json, userId: socket.id });
-      break;
     case 'resumeConsumer':
       return Request.handleResumeConsumerRequest({ ...json, userId: socket.id });
       break;
@@ -101,6 +95,8 @@ const handleSocketMessage = (socket, json) => {
       break;
     case 'getConsumerStats':
       break;
+    case 'rtcStats':
+      return Request.handleRemoteRtcStatsReport({ ...json, userId: socket.id });
     default: throw new Error(`Unknown action ${action}`);  
   }
 };

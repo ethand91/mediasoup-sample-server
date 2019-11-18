@@ -7,6 +7,7 @@ const handlePauseConsumerRequest = require('./pauseConsumer');
 const handleResumeConsumerRequest = require('./resumeConsumer');
 const handlePauseProducerRequest = require('./pauseProducer');
 const handleResumeProducerRequest = require('./resumeProducer');
+const handleRemoteRtcStatsReport = require('./remoteRtcStats');
 
 module.exports = {
   handleGetRoomRtpCapabilitiesRequest,
@@ -17,5 +18,6 @@ module.exports = {
   handlePauseConsumerRequest,
   handleResumeConsumerRequest,
   handlePauseProducerRequest,
-  handleResumeProducerRequest
+  handleResumeProducerRequest,
+  handleRemoteRtcStatsReport
 };
