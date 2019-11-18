@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mediasoup": "^3.2.5",
-    "mediasoup-client": "^3.2.11",
+    "mediasoup": "^3.3.0",
+    "mediasoup-client": "^3.3.0",
     "uuid": "^3.3.3",
     "ws": "^7.2.0"
   },
