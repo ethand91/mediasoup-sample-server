@@ -209,7 +209,7 @@ module.exports.Room = class Room extends EventEmitter {
       consumer = await recvTransport.consume({
         producerId: producer.id,
         rtpCapabilities: consumerUser.rtpCapabilities,
-        //paused: true
+        paused: true
       });
     } catch (error) {
       console.error('_createConsumer() failed to create consumer [id:%s, consumerUser.id:%s, recvTransport.id:%s, error:%o]', this._id, consumerUser.id, recvTransport.id, error);
