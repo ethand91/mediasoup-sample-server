@@ -17,8 +17,6 @@ npm i
 
 # How to use
 
-**Change the webRtcTransport ip located in config.js!!!**
-
 ```bash
 # Start the server
 node src/server.js
