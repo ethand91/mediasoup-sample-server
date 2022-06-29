@@ -10,8 +10,10 @@ module.exports = {
     library: 'Lib'
   },
   devServer: {
-    host: '0.0.0.0',
-    contentBase: path.resolve(__dirname, 'dist'),
+    host: '127.0.0.1',
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
     hot: true,
     https: true
   }

@@ -1,5 +1,3 @@
-const uuidv4 = require('uuid/v4');
-
 const {
   addRoom,
   getRoomById,
@@ -10,7 +8,6 @@ const Request = require('./socket/request');
 let counter = 0;
 
 module.exports.handleSocket = async(socket) => {
-  //socket.id = uuidv4();
   socket.id = ++counter;
   console.log('io::connection [id:%s]', socket.id);
 

@@ -29,7 +29,7 @@ module.exports = Object.freeze({
     ]
   },
   webRtcTransport: {
-    listenIps: [ { ip: '192.168.60.99', announcedIp: undefined } ],
+    listenIps: [ { ip: '127.0.0.1', announcedIp: undefined } ],
     enableUdp: true,
     enableTcp: true,
     preferUdp: true,

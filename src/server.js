@@ -27,7 +27,7 @@ function heartbeat () {
   try {
     await initializeWorkers();
 
-    httpsServer.listen(443, () =>
+    httpsServer.listen({ host: '127.0.0.1', port: 443 }, () =>
       console.log('websocket SSL server running on port 443')
     );
   } catch (error) {
@@ -42,7 +42,6 @@ wss.on('connection', socket => {
   // Decorate socket
   socket.broadcast = (message) => {
     for (const client of wss.clients) {
-      //if (client !== socket && client.readyState === WebSocket.OPEN) {
       if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(message));
       }

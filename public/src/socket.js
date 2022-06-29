@@ -16,6 +16,7 @@ module.exports = class Socket extends EventEmitter {
   }
 
   async connect (url) {
+    console.log('connect() [url:%s]', url);
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
       throw new Error(`Invalid websocket url ${url}`);
     }

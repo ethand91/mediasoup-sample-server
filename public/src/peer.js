@@ -1,6 +1,8 @@
 const { EventEmitter } = require('events');
 const mediasoup = require('mediasoup-client');
 
+const ROOM_ID = 'sample';
+
 const { GUM } = require('./gum');
 const Socket = require('./socket');
 
@@ -24,7 +26,7 @@ module.exports = class Peer extends EventEmitter {
     await this._socket.connect(socketUrl);
     const response = await this._socket.sendWithAck({
       action: 'getRoomRtpCapabilities',
-      roomId: 'android'
+      roomId: ROOM_ID 
     });
 
     await this._mediasoupDevice.load({ routerRtpCapabilities: response.roomRtpCapabilities });
@@ -34,7 +36,7 @@ module.exports = class Peer extends EventEmitter {
   async join () {
     const response = await this._socket.sendWithAck({
       action: 'loginRoom',
-      roomId: 'android',
+      roomId: ROOM_ID,
       rtpCapabilities: this._mediasoupDevice.rtpCapabilities
     });
 
@@ -59,7 +61,7 @@ module.exports = class Peer extends EventEmitter {
       try {
         const response = await this._socket.sendWithAck({
           action: 'connectWebRtcTransport',
-          roomId: 'android',
+          roomId: ROOM_ID,
           transportId: sendTransport.id,
           dtlsParameters
         });
@@ -76,7 +78,7 @@ module.exports = class Peer extends EventEmitter {
       try {
         const response = await this._socket.sendWithAck({
           action: 'produce',
-          roomId: 'android',
+          roomId: ROOM_ID,
           transportId: sendTransport.id,
           kind,
           rtpParameters
@@ -109,7 +111,7 @@ module.exports = class Peer extends EventEmitter {
       try {
         const response = await this._socket.sendWithAck({
           action: 'connectWebRtcTransport',
-          roomId: 'android',
+          roomId: ROOM_ID,
           transportId: recvTransport.id,
           dtlsParameters
         });
@@ -189,7 +191,7 @@ module.exports = class Peer extends EventEmitter {
     // unmute remote consumer
     const response = await this._socket.sendWithAck({
       action: 'resumeConsumer',
-      roomId: 'android',
+      roomId: ROOM_ID,
       userId: consumerInfo.consumerUserId,
       consumerId: kindConsumer.id
     });
@@ -215,7 +217,7 @@ module.exports = class Peer extends EventEmitter {
 
     return this._socket.sendWithAck({
       action: 'createWebRtcTransport',
-      roomId: 'android',
+      roomId: ROOM_ID,
       direction 
     });
   }
